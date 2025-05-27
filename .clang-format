@@ -1,0 +1,11 @@
+---
+Language: C
+BasedOnStyle: LLVM
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: None
+IndentCaseLabels: false
+ColumnLimit: 80
+PointerAlignment: Left
