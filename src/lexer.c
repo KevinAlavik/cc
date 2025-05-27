@@ -1,5 +1,6 @@
 /* cc 1.0 (c) Copyright 2025 Kevin Alavik */
 #include <arena.h>
+#include <ctype.h>
 #include <global.h>
 #include <lexer.h>
 #include <stdio.h>
@@ -30,7 +31,7 @@ struct token* lexer_next_token(struct lexer* lex) {
     }
 
     /* Skip whitespace */
-    while (*lex->current == ' ' || *lex->current == '\t' || *lex->current == '\n') {
+    while (isspace((unsigned char)*lex->current)) {
         if (*lex->current == '\n') {
             lex->line++;
             lex->column = 1;
@@ -45,6 +46,8 @@ struct token* lexer_next_token(struct lexer* lex) {
     }
 
     /* TODO: Actual token handling logic (keywords, identifiers, etc.) */
-    printf("Unknown token at: %d:%d\n", lex->line, lex->column);
+    fprintf(stderr, "ERROR: Unknown token at %d:%d: '%c' (0x%02X)\n", lex->line, lex->column, *lex->current,
+            (unsigned char)*lex->current);
+
     return NULL;
 }
