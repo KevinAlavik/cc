@@ -1,2 +1,2 @@
 # cc
-A simple ANSI C compiler for educational purposes.
+A simple ANSI C compiler written in ANSI C for educational purposes
