@@ -1,9 +1,12 @@
 /* cc 1.0 (c) Copyright 2025 Kevin Alavik */
 #include <arena.h>
+#include <lexer.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <token.h>
 
+/* Globals */
 struct arena g_arena = {0};
 
 int main(int argc, char** argv) {
@@ -30,12 +33,6 @@ int main(int argc, char** argv) {
     file_size = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    if (file_size <= 0) {
-        fprintf(stderr, "ERROR: File is empty or unable to determine size\n");
-        fclose(file);
-        return 1;
-    }
-
     /* Initialize the arena for memory allocation */
     if (arena_init(&g_arena, DEFAULT_ARENA_SIZE) != 0) {
         fprintf(stderr, "ERROR: Failed to initialize global arena\n");
@@ -59,8 +56,30 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    /* Process source code */
-    printf("%.*s\n", (int)file_size, (char*)buff);
+    /* Lex the source code */ {
+        struct token* cur_tok;
+
+        /* Lexer */
+        struct lexer* lex = lexer_create(buff);
+        if (!lex) {
+            fclose(file);
+            return 1;
+        }
+
+        /* Loop over tokens */
+        while ((cur_tok = lexer_next_token(lex)) != NULL) {
+            PRINT_TOK(cur_tok);
+
+            /* Stop at end of file */
+            if (cur_tok->type == TOKEN_EOF)
+                break;
+
+            /* Continue on with the next token*/
+            cur_tok = lexer_next_token(lex);
+        }
+    }
+
+    printf("done.\n");
 
     /* Cleanup */
     fclose(file);

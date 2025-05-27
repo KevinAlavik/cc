@@ -7,5 +7,5 @@ TabWidth: 4
 BreakBeforeBraces: Attach
 AllowShortFunctionsOnASingleLine: None
 IndentCaseLabels: false
-ColumnLimit: 80
+ColumnLimit: 120
 PointerAlignment: Left
