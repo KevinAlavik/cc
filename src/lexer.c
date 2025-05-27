@@ -26,7 +26,7 @@ struct lexer* lexer_create(const char* input) {
 
 struct token* lexer_next_token(struct lexer* lex) {
     if (!lex || !lex->current || *lex->current == '\0') {
-        return token_create(TOKEN_EOF, "EOF", lex->line, lex->column);
+        return token_create(TOKEN_EOF, "", lex->line, lex->column);
     }
 
     /* Skip whitespace */
@@ -41,7 +41,7 @@ struct token* lexer_next_token(struct lexer* lex) {
     }
 
     if (*lex->current == '\0') {
-        return token_create(TOKEN_EOF, "EOF", lex->line, lex->column);
+        return token_create(TOKEN_EOF, "", lex->line, lex->column);
     }
 
     /* TODO: Actual token handling logic (keywords, identifiers, etc.) */
